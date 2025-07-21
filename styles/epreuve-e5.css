@@ -1,0 +1,109 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+body {
+	position: absolute;
+	min-height: 100%;
+	width: 100%;
+	background: #1e1e1e;
+}
+
+#bg {
+	top: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(60deg, hsl(125, 37%, 74%), hsla(160, 56%, 41%, 0.5));
+	z-index: -1;
+}
+
+nav a[href="/epreuve-e5"] {
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+	box-shadow: 4px 4px 4px hsl(0, 0%, 0%, 0.25);
+	background: hsl(0, 0%, 93%, 0.05);
+	padding: 7.5px;
+}
+
+h1, h2, a, li {
+	color: #fff;
+}
+
+h1 {
+	width: max-content;
+	margin: calc(1em + 42px + 4rem) auto;
+	margin-bottom: 4rem;
+}
+
+h2 {
+	margin-bottom: 1rem;
+}
+
+ul {
+	padding-left: .5em;
+	list-style: inside;
+}
+
+#first-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 0 5rem;
+	margin-bottom: 1.5rem;
+}
+
+#first-container div {
+	width: calc((100% - 6rem - 8px) / 2);
+	display: flex;
+	flex-direction: column;
+}
+
+#first-container ul {
+	flex-grow: 1;
+	background: hsl(0, 0%, 93%, 0.05);
+	padding: 1rem;
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+	border-radius: 15px;
+	width: calc(100% - 2rem - 4px);
+}
+
+#second-container {
+	margin: 0 5rem;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 2rem;
+}
+
+#second-container ul {
+	columns: 2;
+	column-gap: calc(8rem + 8px);
+	background: hsl(0, 0%, 93%, 0.05);
+	padding: 1rem;
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+	border-radius: 15px;
+	width: calc(100% - 2rem - 4px);
+}
+
+.btn {
+	display: block;
+	text-decoration: none;
+	padding: .5rem 2rem;
+	color: #fff;
+	margin: auto;
+	width: max-content;
+	background: hsl(0, 0%, 93%, 0.05);
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+	box-shadow: 4px 4px 4px hsl(0, 0%, 0%, 0.25);
+	border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+}
+
+.btn:hover {
+	box-shadow: 2px 2px 2px hsl(0, 0%, 0%, 0.25);
+}
+
+.btn:focus {
+	box-shadow: 2px 2px 2px hsl(0, 0%, 0%, 0.25) inset;
+}
