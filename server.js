@@ -23,7 +23,7 @@ defaultHeaders = {
 function compressDir(dirPath) {
 	readdir(dirPath, (err, files) => {		
 		if (err) console.log(`[compressDir] readdir (${dirPath})`);
-		else files.filter(file => !(/\.(br|zip|gzip)$/.test(file))).forEach(file => readFile(`${dirPath}/${file}`, (err, data) => {			
+		else files.filter(file => !fileExtRegex.test(file)).forEach(file => readFile(`${dirPath}/${file}`, (err, data) => {			
 			if (err) console.log(`[compressDir] readFile (${dirPath}/${file})`);
 			else {		
 				brotliCompress(data, (err, res) => {
