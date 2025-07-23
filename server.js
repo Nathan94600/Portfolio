@@ -104,7 +104,7 @@ createServer((req, res) => {
 				case "GET":
 					readFile(`./pages/bts-sio.html${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /", err);
+							console.log("GET /bts-sio", err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
@@ -120,7 +120,7 @@ createServer((req, res) => {
 				case "GET":
 					readFile(`./pages/contact.html${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /", err);
+							console.log("GET /contact", err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
@@ -136,7 +136,7 @@ createServer((req, res) => {
 				case "GET":
 					readFile(`./pages/epreuve-e5.html${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /", err);
+							console.log("GET /epreuve-e5", err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
@@ -152,7 +152,23 @@ createServer((req, res) => {
 				case "GET":
 					readFile(`./pages/epreuve-e6.html${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /", err);
+							console.log("GET /epreuve-e6", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/projets":
+			switch (req.method) {
+				case "GET":
+					readFile(`./pages/projets.html${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /projets", err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
@@ -168,7 +184,7 @@ createServer((req, res) => {
 				case "GET":
 					readFile(`./pages/veille-technologique.html${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /", err);
+							console.log("GET /veille-technologique", err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
@@ -234,6 +250,22 @@ createServer((req, res) => {
 					readFile(`./styles/epreuve-e6.css${fileExts[encoding]}`, (err, data) => {
 						if (err) {
 							console.log("GET /styles/epreuve-e6.css", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/styles/projets.css":
+			switch (req.method) {
+				case "GET":
+					readFile(`./styles/projets.css${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /styles/projets.css", err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
