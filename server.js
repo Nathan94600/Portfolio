@@ -70,7 +70,7 @@ function chooseEncoding(header) {
 		.filter(v => supportedEncoding.includes(v[0]))
 		.sort((a, b) => (b[1] - a[1]) || supportedEncoding.indexOf(a[0]) - supportedEncoding.indexOf(b[0]))[0]?.[0];
 
-	return encoding ? encoding == "*" ? "br" : encoding : null;
+	return encoding ? encoding == "*" ? supportedEncoding[0] : encoding : null;
 };
 
 createServer((req, res) => {
