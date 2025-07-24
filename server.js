@@ -22,28 +22,28 @@ defaultHeaders = {
 
 function compressDir(dirPath) {
 	readdir(dirPath, (err, files) => {		
-		if (err) console.log(`[compressDir] readdir (${dirPath})`);
+		if (err) console.log(`[compressDir] readdir (${dirPath})`, err);
 		else files.filter(file => !fileExtRegex.test(file)).forEach(file => readFile(`${dirPath}/${file}`, (err, data) => {			
-			if (err) console.log(`[compressDir] readFile (${dirPath}/${file})`);
+			if (err) console.log(`[compressDir] readFile (${dirPath}/${file})`, err);
 			else {		
 				brotliCompress(data, (err, res) => {
-					if (err) console.log(`[compressDir] brotliCompress (${dirPath}/${file})`);
+					if (err) console.log(`[compressDir] brotliCompress (${dirPath}/${file})`, err);
 					else writeFile(`${dirPath}/${file}.br`, res, err => {
-						if (err) console.log(`[compressDir] writeFile brotliCompress (${dirPath}/${file})`);
+						if (err) console.log(`[compressDir] writeFile brotliCompress (${dirPath}/${file})`, err);
 					});
 				});
 
 				deflate(data, (err, res) => {
-					if (err) console.log(`[compressDir] deflate (${dirPath}/${file})`);
+					if (err) console.log(`[compressDir] deflate (${dirPath}/${file})`, err);
 					else writeFile(`${dirPath}/${file}.zip`, res, err => {
-						if (err) console.log(`[compressDir] writeFile deflate (${dirPath}/${file})`);
+						if (err) console.log(`[compressDir] writeFile deflate (${dirPath}/${file})`, err);
 					});
 				});
 
 				gzip(data, (err, res) => {
-					if (err) console.log(`[compressDir] gzip (${dirPath}/${file})`);
+					if (err) console.log(`[compressDir] gzip (${dirPath}/${file})`, err);
 					else writeFile(`${dirPath}/${file}.gzip`, res, err => {
-						if (err) console.log(`[compressDir] writeFile gzip (${dirPath}/${file})`);
+						if (err) console.log(`[compressDir] writeFile gzip (${dirPath}/${file})`, err);
 					});
 				});
 			};
