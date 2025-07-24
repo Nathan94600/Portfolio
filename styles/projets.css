@@ -89,11 +89,12 @@ iframe {
 }
 
 img {
+	margin-right: .5rem;
 	width: 1em;
 }
 
 .project a {
-	display: block;
+	display: flex;
 	width: max-content;
 	margin: auto;
   align-items: center;
