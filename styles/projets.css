@@ -1,3 +1,7 @@
+:root {
+	--iframeWidth: 550;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -37,41 +41,99 @@ h2 {
 	margin-bottom: 1.5rem;
 }
 
-h1, h2, h3, p, ul {
+h1, h2, h3, p, ul, a {
 	color: #fff;
 }
 
-#def {
+#projects {
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: space-between;
 	margin: 0 5rem;
-	margin-bottom: 3rem;
 }
 
-#def > * {
+#projects > .project, .project-group {
+	margin-bottom: 2rem;
+}
+
+.project {
 	background: hsl(0, 0%, 93%, 0.05);
 	padding: 1rem;
 	border: 2px solid hsl(0, 0%, 93%, 0.15);
 	border-radius: 15px;
-	width: calc((100% - 6rem - 8px) / 2);
+	width: calc(var(--iframeWidth) * 1px);
 }
 
-#container {
-	overflow: hidden;
-	margin: 0 5rem;
+iframe {
+	background: #fff;
+	border-radius: 50px;
+	filter: blur(10px);
+	pointer-events: none;
+	width: 100%;
+	height: 100%;
+}
+
+#iframe-container {
+	position: relative;
+	margin-bottom: 1rem;
+	width: calc(var(--iframeWidth) * 1px);
+	height: calc(1080px / 1920 * var(--iframeWidth));
+}
+
+#iframe-scaler {
+	transform: scale(calc(var(--iframeWidth) / 1920));
+	transform-origin: top left;
+	width: 1920px;
+	height: 1080px;
+}
+
+img {
+	width: 1em;
+}
+
+.project a {
+	display: block;
+	width: max-content;
+	margin: auto;
+  align-items: center;
+}
+
+p {
+	margin-bottom: 1rem;
+}
+
+.project-group {
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
-	flex-direction: row;
-	flex-wrap: wrap;
-	gap: 2rem 0;
 }
 
-#container > * {
-	width: calc((100% - 2rem) / 2);
+.link {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+	position: absolute;
 }
 
-ul {
-	padding-left: .5em;
-	list-style: inside;
+.btn {
+	text-decoration: none;
+	padding: .5rem 2rem;
+	color: #fff;
+	background: hsl(0, 0%, 93%, 0.05);
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+	box-shadow: 8px 8px 8px hsl(0, 0%, 0%, 1);
+	border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+}
+
+.btn:hover {
+	box-shadow: 4px 4px 4px hsl(0, 0%, 0%, 1);
+}
+
+.btn:focus {
+	box-shadow: 4px 4px 4px hsl(0, 0%, 0%, 1) inset;
 }

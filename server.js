@@ -13,7 +13,7 @@ defaultHeaders = {
 	HTML: {
 		"content-type": "text/html",
 		"content-language": "fr",
-		"content-security-policy": "default-src 'self'; img-src 'self' https://cdn.jsdelivr.net;"
+		"content-security-policy": "default-src 'self'; img-src 'self' https://cdn.jsdelivr.net; frame-src 'self' http://projet-web.nathanmd.ovh"
 	},
 	CSS: {
 		"content-type": "text/css"
