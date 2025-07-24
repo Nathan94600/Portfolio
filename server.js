@@ -51,7 +51,6 @@ function compressDir(dirPath) {
 	});
 };
 
-compressDir("./javascript");
 compressDir("./pages");
 compressDir("./styles");
 
