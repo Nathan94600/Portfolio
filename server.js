@@ -13,12 +13,12 @@ fileExts = {
 fileExtRegex = /\.(br|zip|gzip)$/,
 defaultHeaders = {
 	HTML: {
-		"content-type": "text/html",
+		"content-type": "text/html; charset=UTF-8",
 		"content-language": "fr",
 		"content-security-policy": "default-src 'self'; img-src 'self' https://cdn.jsdelivr.net; frame-src 'self' http://projet-web.nathanmd.ovh"
 	},
 	CSS: {
-		"content-type": "text/css"
+		"content-type": "text/css; charset=UTF-8"
 	}
 },
 transporter = createTransport({
@@ -36,10 +36,14 @@ mailOptions = {
 	subject: "Nouveau message venant du Portfolio",
 };
 
-function compressDir(dirPath) {
+/**
+ * @param { string } dirPath 
+ * @param { string[] } except 
+ */
+function compressDir(dirPath, except = []) {
 	readdir(dirPath, (err, files) => {		
 		if (err) console.log(`[compressDir] readdir (${dirPath})`, err);
-		else files.filter(file => !fileExtRegex.test(file)).forEach(file => readFile(`${dirPath}/${file}`, (err, data) => {			
+		else files.filter(file => !fileExtRegex.test(file) && !except.includes(file)).forEach(file => readFile(`${dirPath}/${file}`, (err, data) => {			
 			if (err) console.log(`[compressDir] readFile (${dirPath}/${file})`, err);
 			else {		
 				brotliCompress(data, (err, res) => {
@@ -67,7 +71,7 @@ function compressDir(dirPath) {
 	});
 };
 
-compressDir("./pages");
+compressDir("./pages", ["contact-error.html"]);
 compressDir("./styles");
 
 /**
@@ -89,14 +93,14 @@ function chooseEncoding(header) {
 };
 
 createServer((req, res) => {
-	const encoding = req.headers["accept-encoding"] ? chooseEncoding(req.headers["accept-encoding"]) : null;
+	const encoding = req.headers["accept-encoding"] ? chooseEncoding(req.headers["accept-encoding"]) : null, { pathname, searchParams } = new URL(`http://localhost${req.url}`);
 
 	if (encoding) {
 		defaultHeaders.HTML["content-encoding"] = encoding;
 		defaultHeaders.CSS["content-encoding"] = encoding;
 	};
 	
-	switch (req.url) {
+	switch (pathname) {
 		// pages
 		case "/":
 			switch (req.method) {
@@ -155,6 +159,60 @@ createServer((req, res) => {
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/contact-error":
+			switch (req.method) {
+				case "GET":
+					readFile(`./pages/contact-error.html`, (err, data) => {
+						if (err) {
+							console.log("GET /contact-error", err);
+							
+							res.writeHead(500).end();
+						} else {
+							const content = data.toString().replace("{{error}}", decodeURIComponent(searchParams.get("error") || ""));
+
+							switch (encoding) {
+								case "br":
+									brotliCompress(content, (err, encodedContent) => {
+										if (err) {
+											console.log("[brotliCompress] GET /contact-error", err);
+
+											res.writeHead(500).end();
+										} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": encodedContent.length }).end(encodedContent);
+									});
+									break;
+								case "gzip":
+									gzip(content, (err, encodedContent) => {
+										if (err) {
+											console.log("[gzip] GET /contact-error", err);
+
+											res.writeHead(500).end();
+										} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": encodedContent.length }).end(encodedContent);
+									});
+									break;
+								case "deflate":
+									deflate(content, (err, encodedContent) => {
+										if (err) {
+											console.log("[deflate] GET /contact-error", err);
+
+											res.writeHead(500).end();
+										} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": encodedContent.length }).end(encodedContent);
+									});
+									break;
+								case null:
+									res.writeHead(200, { ...defaultHeaders.HTML, "content-length": Buffer.from(content).length }).end(content);		
+									break;
+								default:
+									res.writeHead(500).end();
+									break;
+							};
+						};
 					});
 					break;
 				default:
@@ -364,14 +422,14 @@ createServer((req, res) => {
 					req.on("data", chunk => data += chunk).on("end", () => {
 						const params = new URLSearchParams(data), nom = params.get("nom"), prenom = params.get("prenom"), email = params.get("email"), message = params.get("message");
 
-						if (!nom) {}
-						else if (nom.length < 2 || nom.length > 50) {}
-						else if (!prenom) {}
-						else if (prenom.length < 2 || prenom.length > 50) {}
-						else if (!email) {}
-						else if (email.length < 6 || email.length > 254) {}
-						else if (!message) {}
-						else if (message.length < 10 || message.length > 1000) {}
+						if (!nom) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre votre nom") }).end();
+						else if (nom.length < 2 || nom.length > 50) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un nom qui contient entre 2 et 50 caractères") }).end();
+						else if (!prenom) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre votre prénom") }).end();
+						else if (prenom.length < 2 || prenom.length > 50) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un prénom qui contient entre 2 et 50 caractères") }).end();
+						else if (!email) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre votre email") }).end();
+						else if (email.length < 6 || email.length > 254) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un prénom qui contient entre 6 et 254 caractères") }).end();
+						else if (!message) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un message") }).end();
+						else if (message.length < 10 || message.length > 1000) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un message qui contient entre 10 et 1000 caractères") }).end();
 						else transporter.sendMail({
 							...mailOptions,
 							text: `Prénom: ${prenom}\nNom: ${nom}\nEmail: ${email}\nMessage :\n\n${message}`
