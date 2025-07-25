@@ -38,5 +38,4 @@ node server
 
 # Todolist
 
-- Gérer les erreurs lors de la réception du formulaire de la page `contact`
 - Faire le responsive de toutes les pages
