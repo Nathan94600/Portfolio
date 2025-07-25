@@ -37,7 +37,7 @@ h2 {
 	margin-bottom: 1.5rem;
 }
 
-h1, h2, h3, p, ul {
+h1, h2, h3, p, ul, tr {
 	color: #fff;
 }
 
@@ -60,10 +60,11 @@ h1, h2, h3, p, ul {
 #container {
 	overflow: hidden;
 	margin: 0 5rem;
+	margin-bottom: 3rem;
 	display: flex;
 	justify-content: space-between;
-	flex-direction: row;
 	flex-wrap: wrap;
+	flex-direction: row;
 	gap: 2rem 0;
 }
 
@@ -74,4 +75,37 @@ h1, h2, h3, p, ul {
 ul {
 	padding-left: .5em;
 	list-style: inside;
+}
+
+#epreuves {
+	margin: 0 5rem;
+	display: flex;
+	flex-direction: column;
+}
+
+#table {
+	box-shadow: 4px 4px 4px hsl(0, 0%, 0%, 0.25);
+	background: hsl(0, 0%, 93%, 0.05);
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+	border-radius: 15px;
+	margin-bottom: 3rem;
+}
+
+#table p {
+	padding: .5rem;
+	box-shadow: 0 2px 0 hsl(0, 0%, 93%, 0.15);
+}
+
+span {
+	font-style: italic;
+}
+
+#title {
+	text-align: center;
+	font-weight: bold;
+	font-size: large;
+}
+
+#table p:last-child {
+	box-shadow: none;
 }
