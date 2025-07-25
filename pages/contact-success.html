@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Accueil</title>
+	<link rel="stylesheet" href="/styles/contact.css">
+	<link rel="stylesheet" href="/styles/navbar.css">
+</head>
+<body>
+	<div id="bg"></div>
+	<nav>
+		<a href="/">Accueil</a>
+		<a href="/bts-sio">BTS SIO</a>
+		<a href="/epreuve-e5">Épreuve E5</a>
+		<a href="/epreuve-e6">Épreuve E6</a>
+		<a href="/veille-technologique">Veille technologique</a>
+		<a href="/projets">Projets</a>
+		<a href="/contact">Contact</a>
+	</nav>
+	<p id="success">Votre message a été envoyé avec succès</p>
+	<h1>Contact</h1>
+	<p>Vous pouvez me contacter aux coordonnées ci-dessous ou envoyer un message via le formulaire.</p>
+	<form action="/message" method="post">
+		<div id="fields">
+			<div>
+				<label for="prenom">Prénom</label>
+				<input type="text" name="prenom" id="prenom" required placeholder="Votre prénom (2 à 50 caractères)" maxlength="50" minlength="2">
+			</div>
+			<div>
+				<label for="nom">Nom</label>
+				<input type="text" name="nom" id="nom" required placeholder="Votre nom (2 à 50 caractères)" maxlength="50" minlength="2">
+			</div>
+			<div>
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email" required placeholder="Votre adresse email (6 à 254 caractères)" maxlength="254" minlength="6">
+			</div>
+		</div>
+		<label for="message">Message</label>
+		<textarea name="message" id="message" required placeholder="Votre message (10 à 1000 caractères)" maxlength="1000" minlength="10"></textarea>
+		<button type="submit">Envoyer</button>
+	</form>
+	<div id="info">
+		<a href="mailto:nmarquesduval@gmail.com">✉️ nmarquesduval@gmail.com</a>
+		<a href="tel:+33621179811">📞 06 21 17 98 11</a>
+	</div>
+</body>
+</html>

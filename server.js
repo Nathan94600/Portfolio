@@ -146,6 +146,22 @@ createServer((req, res) => {
 					break;
 			}
 			break;
+		case "/contact-success":
+			switch (req.method) {
+				case "GET":
+					readFile(`./pages/contact-success.html${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /contact-success", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
 		case "/epreuve-e5":
 			switch (req.method) {
 				case "GET":

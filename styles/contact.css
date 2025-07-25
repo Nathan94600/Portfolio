@@ -118,3 +118,28 @@ button:focus {
 *::placeholder {
 	color: hsl(0, 0%, 100%, 0.5);
 }
+
+#success {
+	position: absolute;
+	padding: .5rem 2rem;
+	color: #fff;
+	top: calc(60px + 2rem);
+	left: 50%;
+	transform: translateX(-50%);
+	width: max-content;
+	background: hsla(135, 100%, 50%, 0.25);
+	border: 2px solid hsla(135, 100%, 50%, 0.15);
+	box-shadow: 4px 4px 4px hsl(0, 0%, 0%, 0.25);
+	border-radius: 10px;
+	animation: success-msg 1s 4s forwards;
+}
+
+@keyframes success-msg {
+	0% {
+		top: calc(60px + 2rem);
+	}
+
+	100% {
+		top: -100px;
+	}
+}
