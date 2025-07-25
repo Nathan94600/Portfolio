@@ -24,19 +24,19 @@
 		<div id="fields">
 			<div>
 				<label for="prenom">Prénom</label>
-				<input type="text" name="prenom" id="prenom" required>
+				<input type="text" name="prenom" id="prenom" required placeholder="Votre prénom (2 à 50 caractères)" maxlength="50" minlength="2">
 			</div>
 			<div>
 				<label for="nom">Nom</label>
-				<input type="text" name="nom" id="nom" required>
+				<input type="text" name="nom" id="nom" required placeholder="Votre nom (2 à 50 caractères)" maxlength="50" minlength="2">
 			</div>
 			<div>
 				<label for="email">Email</label>
-				<input type="email" name="email" id="email" required>
+				<input type="email" name="email" id="email" required placeholder="Votre adresse email (6 à 254 caractères)" maxlength="254" minlength="6">
 			</div>
 		</div>
 		<label for="message">Message</label>
-		<textarea name="message" id="message" required></textarea>
+		<textarea name="message" id="message" required placeholder="Votre message (10 à 1000 caractères)" maxlength="1000" minlength="10"></textarea>
 		<button type="submit">Envoyer</button>
 	</form>
 	<div id="info">

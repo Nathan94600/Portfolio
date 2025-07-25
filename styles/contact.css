@@ -33,7 +33,7 @@ h1 {
 	margin-bottom: 4rem;
 }
 
-h1, h2, h3, p, ul {
+h1, h2, h3, p, ul, label, a, input, textarea {
 	color: #fff;
 }
 
@@ -61,7 +61,6 @@ form {
 }
 
 label, input {
-	color: #fff;
 	display: block;
 }
 
@@ -85,7 +84,7 @@ input:focus, textarea:focus {
 
 textarea {
 	resize: none;
-	height: 5rem;
+	height: 10rem;
 }
 
 button {
@@ -116,6 +115,6 @@ button:focus {
 	justify-content: space-around;
 }
 
-a {
-	color: #fff;
+*::placeholder {
+	color: hsl(0, 0%, 100%, 0.5);
 }

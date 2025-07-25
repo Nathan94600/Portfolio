@@ -1,3 +1,6 @@
 */*.zip
 */*.gzip
 */*.br
+/package-lock.json
+/node_modules
+/config.json

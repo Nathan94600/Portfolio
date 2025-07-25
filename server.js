@@ -1,6 +1,8 @@
 const { createServer } = require("http"),
 { readFile, readdir, writeFile } = require("fs"),
 { brotliCompress, deflate, gzip } = require("zlib"),
+{ createTransport } = require("nodemailer"),
+{ password, senderEmail, host, port, receiverEmail } = require("./config.json"),
 supportedEncoding = ["br", "gzip", "deflate", "*"],
 fileExts = {
 	br: ".br",
@@ -8,7 +10,7 @@ fileExts = {
 	deflate: ".zip",
 	null: ""
 },
-fileExtRegex = /\.(br|zip|gzip)$/;
+fileExtRegex = /\.(br|zip|gzip)$/,
 defaultHeaders = {
 	HTML: {
 		"content-type": "text/html",
@@ -18,6 +20,20 @@ defaultHeaders = {
 	CSS: {
 		"content-type": "text/css"
 	}
+},
+transporter = createTransport({
+	host,
+	port,
+	secure: true,
+	auth: {
+		user: senderEmail,
+		pass: password,
+	},
+}),
+mailOptions = {
+	to: receiverEmail,
+	from: senderEmail,
+	subject: "Nouveau message venant du Portfolio",
 };
 
 function compressDir(dirPath) {
@@ -307,7 +323,7 @@ createServer((req, res) => {
 					break;
 			}
 			break;
-		case "/styles/navbar.css":
+		case "/styles/navbar.css": 
 			switch (req.method) {
 				case "GET":
 					readFile(`./styles/navbar.css${fileExts[encoding]}`, (err, data) => {
@@ -321,10 +337,44 @@ createServer((req, res) => {
 				default:
 					res.writeHead(501).end();
 					break;
-			}
+			};
+			break;
+		// forms
+		case "/message":
+			switch (req.method) {
+				case "POST":
+					let data = "";
+
+					req.on("data", chunk => data += chunk).on("end", () => {
+						const params = new URLSearchParams(data), nom = params.get("nom"), prenom = params.get("prenom"), email = params.get("email"), message = params.get("message");
+
+						if (!nom) {}
+						else if (nom.length < 2 || nom.length > 50) {}
+						else if (!prenom) {}
+						else if (prenom.length < 2 || prenom.length > 50) {}
+						else if (!email) {}
+						else if (email.length < 6 || email.length > 254) {}
+						else if (!message) {}
+						else if (message.length < 10 || message.length > 1000) {}
+						else transporter.sendMail({
+							...mailOptions,
+							text: `Prénom: ${prenom}\nNom: ${nom}\nEmail: ${email}\nMessage :\n\n${message}`
+						}, err => {
+							if (err) {
+								console.log("[sendMail]", err);
+
+
+							} else res.writeHead(303, { location: "/contact-success" }).end();
+						});
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			};
 			break;
 		default:
 			res.writeHead(404).end();
 			break;
-	}
+	};
 }).listen(8080, () => console.log("http://localhost:8080"));
