@@ -13,14 +13,17 @@ fileExts = {
 fileExtRegex = /\.(br|zip|gzip)$/,
 defaultHeaders = {
 	HTML: {
+		"cache-control": "no-cache",
 		"content-type": "text/html; charset=UTF-8",
 		"content-language": "fr",
 		"content-security-policy": "default-src 'self'; img-src 'self' https://cdn.jsdelivr.net; frame-src 'self' http://projet-web.nathanmd.ovh"
 	},
 	CSS: {
+		"cache-control": "no-cache",
 		"content-type": "text/css; charset=UTF-8"
 	},
 	SVG: {
+		"cache-control": "max-age=31536000",
 		"content-type": "image/svg+xml;"
 	}
 },
