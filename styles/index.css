@@ -60,6 +60,7 @@ nav a[href="/"] {
 }
 
 .card {
+	min-width: calc(300px - 2rem);
 	flex-shrink: 0;
 	width: calc((100% - 6rem - 8px) / 2);
 	background: hsl(0, 0%, 93%, 0.05);
@@ -70,13 +71,17 @@ nav a[href="/"] {
 }
 
 h1 {
-	width: max-content;
+	text-align: center;
 	margin: calc(1em + 42px + 4rem) auto;
 	margin-bottom: 4rem;
 }
 
 h1, h2, h3, p, ul {
 	color: #fff;
+}
+
+li {
+	padding: .1rem 0;
 }
 
 #parcours {

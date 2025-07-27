@@ -28,7 +28,7 @@ nav a[href="/bts-sio"] {
 }
 
 h1 {
-	width: max-content;
+	text-align: center;
 	margin: calc(1em + 42px + 4rem) auto;
 	margin-bottom: 4rem;
 }
