@@ -19,6 +19,9 @@ defaultHeaders = {
 	},
 	CSS: {
 		"content-type": "text/css; charset=UTF-8"
+	},
+	SVG: {
+		"content-type": "image/svg+xml;"
 	}
 },
 transporter = createTransport({
@@ -73,6 +76,7 @@ function compressDir(dirPath, except = []) {
 
 compressDir("./pages", ["contact-error.html"]);
 compressDir("./styles");
+compressDir("./icons");
 
 /**
  * @param { string } header Accept-Encoding
@@ -98,9 +102,331 @@ createServer((req, res) => {
 	if (encoding) {
 		defaultHeaders.HTML["content-encoding"] = encoding;
 		defaultHeaders.CSS["content-encoding"] = encoding;
+		defaultHeaders.SVG["content-encoding"] = encoding;
 	};
 	
 	switch (pathname) {
+		// icons
+		case "/icons/bootstrap-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/bootstrap-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/csharp-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/csharp-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/css3-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/css3-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/figma-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/figma-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/git-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/git-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/github-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/github-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/html5-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/html5-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/java-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/java-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/javascript-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/javascript-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/linux-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/linux-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/mongodb-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/mongodb-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/mysql-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/mysql-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/nodejs-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/nodejs-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/php-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/php-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/powershell-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/powershell-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/python-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/python-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/react-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/react-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/sqlite-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/sqlite-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/typescript-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/typescript-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/icons/unity-original.svg":
+			switch (req.method) {
+				case "GET":
+					readFile(`./icons/unity-original.svg${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.SVG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
 		// pages
 		case "/":
 			switch (req.method) {
