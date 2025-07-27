@@ -1,8 +1,9 @@
-const { createServer } = require("http"),
-{ readFile, readdir, writeFile } = require("fs"),
+const { createServer: createSecureServer } = require("https"),
+{ createServer } = require("http"),
+{ readFile, readFileSync, readdir, writeFile } = require("fs"),
 { brotliCompress, deflate, gzip } = require("zlib"),
 { createTransport } = require("nodemailer"),
-{ password, senderEmail, host, port, receiverEmail } = require("./config.json"),
+{ password, senderEmail, host, port, receiverEmail, certPath, keyPath } = require("./config.json"),
 supportedEncoding = ["br", "gzip", "deflate", "*"],
 fileExts = {
 	br: ".br",
@@ -99,7 +100,10 @@ function chooseEncoding(header) {
 	return encoding ? encoding == "*" ? supportedEncoding[0] : encoding : null;
 };
 
-createServer((req, res) => {
+((certPath && keyPath) ? createSecureServer : createServer)({
+	key: keyPath ? readFileSync(keyPath) : keyPath,
+	cert: certPath ? readFileSync(certPath) : certPath
+}, (req, res) => {
 	const encoding = req.headers["accept-encoding"] ? chooseEncoding(req.headers["accept-encoding"]) : null, { pathname, searchParams } = new URL(`http://localhost${req.url}`);
 
 	if (encoding) {
@@ -780,4 +784,4 @@ createServer((req, res) => {
 			res.writeHead(404).end();
 			break;
 	};
-}).listen(8080, () => console.log("http://localhost:8080"));
+}).listen(8080, () => console.log(`${certPath && keyPath ? "https" : "http"}://localhost:8080`));
