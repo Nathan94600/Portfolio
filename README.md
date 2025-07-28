@@ -40,4 +40,13 @@ node server
 
 # Todolist
 
-- Faire le responsive de toutes les pages
+- Faire des pages suivantes :
+	
+	- bts-sio
+	- contact-error
+	- contact-success
+	- contact
+	- epreuve-e5
+	- epreuve-e6
+	- projets
+	- veille-technologique 

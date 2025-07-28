@@ -76,7 +76,7 @@ h1 {
 	margin-bottom: 4rem;
 }
 
-h1, h2, h3, p, ul {
+h1, h2, h3, h4, p, ul {
 	color: #fff;
 }
 
@@ -170,7 +170,7 @@ ul {
 	border-radius: 15px;
 }
 
-.skill h3 {
+.skill h3, .skill h4 {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -180,4 +180,64 @@ img {
 	right: 0;
 	vertical-align: middle;
 	width: calc(2rem);
+}
+
+#skills-component-mobile {
+	display: none;
+	width: 100%;
+}
+
+#skills-component-mobile .container {
+	margin-bottom: 1rem;
+}
+
+#skills-component-mobile .skill {
+	flex: 0 0 auto;
+	width: calc(200px - 2rem - 4px);
+}
+
+#skills-component-mobile .skills {
+	display: flex;
+	flex-direction: row;
+	overflow: auto;
+	gap: 1rem;
+}
+
+#skills-component-mobile .skills::-webkit-scrollbar {
+	display: initial;
+}
+
+#skills-component-mobile .skills::-webkit-scrollbar-track {
+	background: hsl(0, 0%, 93%, 0.05);
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+  border-radius: 50px;
+}
+
+#skills-component-mobile .skills::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+	background: hsl(0, 0%, 93%, 0.15);
+}
+
+#skills-component-mobile .skills::-webkit-scrollbar-thumb:hover {
+	background: hsl(0, 0%, 93%, 0.25);
+}
+
+@media (max-width: 1217px) {
+	#container {
+		margin: 0 1rem;
+	}
+
+	#container > * {
+		width: 100%;
+	}
+}
+
+@media (max-width: 1096px) {
+	#skills-component {
+		display: none;
+	}
+
+	#skills-component-mobile {
+		display: initial;
+	}
 }
