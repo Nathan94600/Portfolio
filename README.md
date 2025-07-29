@@ -44,4 +44,3 @@ node server
 	
 	- bts-sio
 	- epreuve-e5
-	- veille-technologique 

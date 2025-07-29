@@ -46,10 +46,11 @@ h2 {
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 5rem;
-	margin-bottom: 3rem;
+	margin-bottom: 2rem;
 }
 
 #def, #tools {
+	flex-wrap: wrap;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -58,6 +59,7 @@ h2 {
 #def p, #tools p {
 	background: hsl(0, 0%, 93%, 0.05);
 	padding: 1rem;
+	margin-bottom: 1rem;
 	border: 2px solid hsl(0, 0%, 93%, 0.15);
 	border-radius: 15px;
 	width: calc((100% - 6rem - 8px) / 2);
@@ -68,4 +70,18 @@ h2 {
 	padding: 1rem;
 	border: 2px solid hsl(0, 0%, 93%, 0.15);
 	border-radius: 15px;
+	min-width: calc(360px - 4rem);
+}
+
+@media (max-width: 1200px) {
+	.container {
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+}
+
+@media (max-width: 800px) {
+	#def p, #tools p{
+		width: auto;
+	}
 }
