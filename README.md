@@ -43,9 +43,6 @@ node server
 - Faire des pages suivantes :
 	
 	- bts-sio
-	- contact-error
-	- contact-success
-	- contact
 	- epreuve-e5
 	- epreuve-e6
 	- veille-technologique 

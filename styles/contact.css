@@ -55,9 +55,10 @@ form {
 }
 
 #fields {
+	flex-wrap: wrap;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: space-around;
 }
 
 label, input {
@@ -111,8 +112,13 @@ button:focus {
 	margin: auto;
 	width: 50%;
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: space-around;
+}
+
+#info * {
+	margin-bottom: 1rem;
 }
 
 *::placeholder {
@@ -120,6 +126,8 @@ button:focus {
 }
 
 #success {
+	max-width: calc(100vw - 6rem);
+	overflow-wrap: break-word;
 	position: absolute;
 	padding: .5rem 2rem;
 	color: #fff;
@@ -135,6 +143,8 @@ button:focus {
 }
 
 #error {
+	max-width: calc(100vw - 6rem);
+	overflow-wrap: break-word;
 	position: absolute;
 	padding: .5rem 2rem;
 	color: #fff;
@@ -155,5 +165,17 @@ button:focus {
 
 	100% {
 		top: -100px;
+	}
+}
+
+@media (max-width: 1200px) {
+	form, #info {
+		width: calc(100% - 10rem);
+	}
+}
+
+@media (max-width: 750px) {
+	form, #info {
+		width: calc(100% - 4rem);
 	}
 }
