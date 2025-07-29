@@ -50,8 +50,13 @@ li {
 	padding: .2rem 0;
 }
 
+#first-container div:first-child {
+	margin-bottom: 1.5rem;
+}
+
 #first-container {
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: space-between;
 	margin: 0 5rem;
@@ -114,8 +119,18 @@ li {
 }
 
 @media (max-width: 1200px) {
-	.container {
+	#first-container, #second-container {
 		margin-left: 1rem;
 		margin-right: 1rem;
+	}
+
+	#first-container div {
+		width: 100%;
+	}
+}
+
+@media (max-width: 800px) {
+	#second-container ul {
+		columns: 1;
 	}
 }
