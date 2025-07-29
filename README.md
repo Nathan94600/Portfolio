@@ -48,5 +48,4 @@ node server
 	- contact
 	- epreuve-e5
 	- epreuve-e6
-	- projets
 	- veille-technologique 

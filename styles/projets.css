@@ -138,3 +138,19 @@ p {
 .btn:focus {
 	box-shadow: 4px 4px 4px hsl(0, 0%, 0%, 1) inset;
 }
+
+@media (max-width: 1350px) {
+	:root {
+		--iframeWidth: 275;
+	}
+
+	#projects {
+		justify-content: space-around;
+		align-items: center;
+		margin: 0 1rem;
+	}
+
+	.project-group {
+		gap: 2rem
+	}
+}
