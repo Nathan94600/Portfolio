@@ -44,43 +44,53 @@ mailOptions = {
 };
 
 /**
+ * @param { string } filePath 
+ */
+function compressFile(filePath) {
+	readFile(filePath, (err, data) => {			
+		if (err) console.log(`[compressDir] readFile (${filePath})`, err);
+		else {		
+			brotliCompress(data, (err, res) => {
+				if (err) console.log(`[compressDir] brotliCompress (${filePath})`, err);
+				else writeFile(`${filePath}.br`, res, err => {
+					if (err) console.log(`[compressDir] writeFile brotliCompress (${filePath})`, err);
+				});
+			});
+
+			deflate(data, (err, res) => {
+				if (err) console.log(`[compressDir] deflate (${filePath})`, err);
+				else writeFile(`${filePath}.zip`, res, err => {
+					if (err) console.log(`[compressDir] writeFile deflate (${filePath})`, err);
+				});
+			});
+
+			gzip(data, (err, res) => {
+				if (err) console.log(`[compressDir] gzip (${filePath})`, err);
+				else writeFile(`${filePath}.gzip`, res, err => {
+					if (err) console.log(`[compressDir] writeFile gzip (${filePath})`, err);
+				});
+			});
+		};
+	});
+};
+
+/**
  * @param { string } dirPath 
  * @param { string[] } except 
  */
 function compressDir(dirPath, except = []) {
 	readdir(dirPath, (err, files) => {		
 		if (err) console.log(`[compressDir] readdir (${dirPath})`, err);
-		else files.filter(file => !fileExtRegex.test(file) && !except.includes(file)).forEach(file => readFile(`${dirPath}/${file}`, (err, data) => {			
-			if (err) console.log(`[compressDir] readFile (${dirPath}/${file})`, err);
-			else {		
-				brotliCompress(data, (err, res) => {
-					if (err) console.log(`[compressDir] brotliCompress (${dirPath}/${file})`, err);
-					else writeFile(`${dirPath}/${file}.br`, res, err => {
-						if (err) console.log(`[compressDir] writeFile brotliCompress (${dirPath}/${file})`, err);
-					});
-				});
-
-				deflate(data, (err, res) => {
-					if (err) console.log(`[compressDir] deflate (${dirPath}/${file})`, err);
-					else writeFile(`${dirPath}/${file}.zip`, res, err => {
-						if (err) console.log(`[compressDir] writeFile deflate (${dirPath}/${file})`, err);
-					});
-				});
-
-				gzip(data, (err, res) => {
-					if (err) console.log(`[compressDir] gzip (${dirPath}/${file})`, err);
-					else writeFile(`${dirPath}/${file}.gzip`, res, err => {
-						if (err) console.log(`[compressDir] writeFile gzip (${dirPath}/${file})`, err);
-					});
-				});
-			};
-		}));
+		else files.filter(file => !fileExtRegex.test(file) && !except.includes(file)).forEach(file => compressFile(`${dirPath}/${file}`));
 	});
 };
 
 compressDir("./pages", ["contact-error.html"]);
 compressDir("./styles");
 compressDir("./icons");
+
+compressFile("./robots.txt");
+compressFile("./sitemap.xml");
 
 /**
  * @param { string } header Accept-Encoding
@@ -779,6 +789,39 @@ function chooseEncoding(header) {
 					res.writeHead(501).end();
 					break;
 			};
+			break;
+		// autres
+		case "/robots.txt":
+			switch (req.method) {
+				case "GET":
+					readFile(`./robots.txt${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /robots.txt", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { "cache-control": "no-cache", "content-type": "text/plain; charset=UTF-8", "content-length": data.length, "content-encoding": encoding }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
+		case "/sitemap.xml":
+			switch (req.method) {
+				case "GET":
+					readFile(`./sitemap.xml${fileExts[encoding]}`, (err, data) => {
+						if (err) {
+							console.log("GET /sitemap.xml", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { "cache-control": "no-cache", "content-type": "application/xml; charset=UTF-8", "content-length": data.length, "content-encoding": encoding }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
 			break;
 		default:
 			res.writeHead(404).end();
