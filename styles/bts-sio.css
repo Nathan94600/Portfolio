@@ -42,6 +42,7 @@ h1, h2, h3, p, ul, tr {
 }
 
 #def {
+	flex-wrap: wrap;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -108,4 +109,21 @@ span {
 
 #table p:last-child {
 	box-shadow: none;
+}
+
+@media (max-width: 1250px) {
+	#def, #container, #epreuves {
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+}
+
+@media (max-width: 930px) {
+	#def p, #left, #right {
+		width: auto;
+	}
+
+	#def p:first-child {
+		margin-bottom: 1rem;
+	}
 }

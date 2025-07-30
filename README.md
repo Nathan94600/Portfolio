@@ -37,9 +37,3 @@ node server
 ```
 
 2. Aller sur le lien affiché dans le terminal
-
-# Todolist
-
-- Faire des pages suivantes :
-	
-	- bts-sio
