@@ -780,7 +780,7 @@ function chooseEncoding(header) {
 							if (err) {
 								console.log("[sendMail]", err);
 
-
+								res.writeHead(303, { location: encodeURI("/contact-error?error=Erreur lors de l'envoi du message") }).end();
 							} else res.writeHead(303, { location: "/contact-success" }).end();
 						});
 					});
