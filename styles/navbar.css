@@ -108,6 +108,7 @@ header {
 }
 
 #hamburger-menu {
+	z-index: 1000;
 	align-items: start;
   display: none;
 	position: absolute;
