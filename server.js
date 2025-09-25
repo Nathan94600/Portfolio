@@ -1,5 +1,5 @@
 const { createServer: createSecureServer } = require("https"),
-{ createServer } = require("http"),
+{ createServer, IncomingMessage, ServerResponse } = require("http"),
 { readFile, readFileSync, readdir, writeFile } = require("fs"),
 { brotliCompress, deflate, gzip } = require("zlib"),
 { createTransport } = require("nodemailer"),
@@ -113,7 +113,12 @@ function chooseEncoding(header) {
 ((certPath && keyPath) ? createSecureServer : createServer)({
 	key: keyPath ? readFileSync(keyPath) : keyPath,
 	cert: certPath ? readFileSync(certPath) : certPath
-}, (req, res) => {
+},
+/**
+ * @param { IncomingMessage } req 
+ * @param { ServerResponse<IncomingMessage> & { req: IncomingMessage; } } res 
+ */
+(req, res) => {
 	const encoding = req.headers["accept-encoding"] ? chooseEncoding(req.headers["accept-encoding"]) : null, { pathname, searchParams } = new URL(`http://localhost${req.url}`);
 
 	if (encoding) {
