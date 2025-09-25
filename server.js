@@ -1,21 +1,24 @@
-const { createServer: createSecureServer } = require("https"),
-{ createServer, IncomingMessage, ServerResponse } = require("http"),
-{ readFile, readFileSync, readdir, writeFile, unlinkSync, readdirSync } = require("fs"),
-{ brotliCompress, deflate, gzip, zstdCompress } = require("zlib"),
-{ Pool } = require("pg"),
-{ join, extname } = require("path"),
-{ createTransport } = require("nodemailer"),
-{ password, senderEmail, host, port, receiverEmail, certPath, keyPath, pgConfig, salt } = require("./config.json"),
-supportedEncoding = ["br", "zstd", "gzip", "deflate", "*"],
-fileExts = {
+import { createServer as createSecureServer } from "https";
+import { createServer, IncomingMessage, ServerResponse } from "http";
+import { readFile, readFileSync, readdir, writeFile, unlinkSync, readdirSync } from "fs";
+import { brotliCompress, deflate, gzip, zstdCompress } from "zlib";
+import { Pool } from "pg";
+import { join, extname, dirname } from "path";
+import { createTransport } from "nodemailer";
+import config from "./config.json" with { type: "json" };
+import { fileURLToPath } from "url";
+
+const { password, senderEmail, host, port, receiverEmail, certPath, keyPath, pgConfig, salt } = config;
+const supportedEncoding = ["br", "zstd", "gzip", "deflate", "*"];
+const fileExts = {
 	br: ".br",
 	gzip: ".gz",
 	zstd: ".zst",
 	deflate: ".deflate",
 	null: ""
-},
-fileExtRegex = /\.(br|zip|gzip)$/,
-defaultHeaders = {
+};
+const fileExtRegex = /\.(br|zip|gzip)$/;
+const defaultHeaders = {
 	HTML: {
 		"cache-control": "no-cache",
 		"content-type": "text/html; charset=UTF-8",
@@ -30,8 +33,8 @@ defaultHeaders = {
 		"cache-control": "max-age=31536000",
 		"content-type": "image/svg+xml;"
 	}
-},
-transporter = createTransport({
+};
+const transporter = createTransport({
 	host,
 	port,
 	secure: true,
@@ -39,14 +42,15 @@ transporter = createTransport({
 		user: senderEmail,
 		pass: password,
 	},
-}),
-mailOptions = {
+});
+const mailOptions = {
 	to: receiverEmail,
 	from: senderEmail,
 	subject: "Nouveau message venant du Portfolio",
-},
-pool = new Pool(pgConfig),
-extensionsToDelete = [".zst", ".br", ".deflate", ".gz"];
+};
+const pool = new Pool(pgConfig);
+const extensionsToDelete = [".zst", ".br", ".deflate", ".gz"];
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function cleanCompressedFiles(dir) {
   const items = readdirSync(dir, { withFileTypes: true });
@@ -140,6 +144,24 @@ function chooseEncoding(header) {
 
 	return encoding ? encoding == "*" ? supportedEncoding[0] : encoding : null;
 };
+
+pool.query(`
+	CREATE TABLE IF NOT EXISTS messages (
+    id SERIAL PRIMARY KEY,
+    message TEXT NOT NULL,
+    ip_hash TEXT NOT NULL,
+    email_hash TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+	);
+
+	CREATE TABLE IF NOT EXISTS blacklist (
+    id SERIAL PRIMARY KEY,
+    ip_hash TEXT,
+    email_hash TEXT,
+    reason TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+	);
+`);
 
 ((certPath && keyPath) ? createSecureServer : createServer)({
 	key: keyPath ? readFileSync(keyPath) : keyPath,
