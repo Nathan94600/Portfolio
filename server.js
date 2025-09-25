@@ -1,14 +1,15 @@
 const { createServer: createSecureServer } = require("https"),
 { createServer, IncomingMessage, ServerResponse } = require("http"),
-{ readFile, readFileSync, readdir, writeFile } = require("fs"),
+{ readFile, readFileSync, readdir, writeFile, unlinkSync, readdirSync } = require("fs"),
 { brotliCompress, deflate, gzip, zstdCompress } = require("zlib"),
 { Pool } = require("pg"),
+{ join, extname } = require("path"),
 { createTransport } = require("nodemailer"),
 { password, senderEmail, host, port, receiverEmail, certPath, keyPath, pgConfig, salt } = require("./config.json"),
 supportedEncoding = ["br", "zstd", "gzip", "deflate", "*"],
 fileExts = {
 	br: ".br",
-	gzip: ".gzip",
+	gzip: ".gz",
 	zstd: ".zst",
 	deflate: ".deflate",
 	null: ""
@@ -44,7 +45,27 @@ mailOptions = {
 	from: senderEmail,
 	subject: "Nouveau message venant du Portfolio",
 },
-pool = new Pool(pgConfig);
+pool = new Pool(pgConfig),
+extensionsToDelete = [".zst", ".br", ".deflate", ".gz"];
+
+function cleanCompressedFiles(dir) {
+  const items = readdirSync(dir, { withFileTypes: true });
+
+  for (const item of items) {
+    const fullPath = join(dir, item.name);
+
+		if (item.isDirectory()) cleanCompressedFiles(fullPath);
+    else if (item.isFile() && extensionsToDelete.includes(extname(item.name).toLowerCase())) {
+      try {
+        unlinkSync(fullPath);
+      } catch (err) {
+        console.error(`Erreur lors de la suppression de ${fullPath} :`, err);
+      };
+    };
+  };
+};
+
+cleanCompressedFiles(__dirname);
 
 /**
  * @param { string } filePath 
@@ -76,7 +97,7 @@ function compressFile(filePath) {
 
 			gzip(data, (err, res) => {
 				if (err) console.log(`[compressDir] gzip (${filePath})`, err);
-				else writeFile(`${filePath}.gzip`, res, err => {
+				else writeFile(`${filePath}.gz`, res, err => {
 					if (err) console.log(`[compressDir] writeFile gzip (${filePath})`, err);
 				});
 			});

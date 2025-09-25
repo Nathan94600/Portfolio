@@ -1,6 +1,6 @@
 *.deflate
 *.zst
-*.gzip
+*.gz
 *.br
 /package-lock.json
 /node_modules
