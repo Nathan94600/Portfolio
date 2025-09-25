@@ -26,7 +26,15 @@ npm i
 	"port": PORT POUR L'ENVOI DE MESSAGE (ex: 465 chez OVH),
 	"receiverEmail": "EMAIL OÙ VOUS VOULEZ RECEVOIR LES MAILS",
 	"certPath": "CHEMIN VERS LE FICHIER DU CERTIFICAT" OU null POUR LANCER LE SERVEUR EN HTTP,
-	"keyPath": "CHEMIN VERS LE FICHIER DE LA CLÉ PRIVÉE" OU null POUR LANCER LE SERVEUR EN HTTP
+	"keyPath": "CHEMIN VERS LE FICHIER DE LA CLÉ PRIVÉE" OU null POUR LANCER LE SERVEUR EN HTTP,
+	"salt": "SALT POUR CHIFFRER LES DONNÉES QUI SERONT SAUVEGARDÉES DANS LA DB",
+	// Configuration pour la création du [Pool](https://node-postgres.com/apis/pool) pour PostgreSQL
+	"pgConfig": {
+		"host": "localhost",
+		"password": "mdp_portfolio_user",
+		"user": "portfolio_user",
+		"database": "portfolio"
+	} 
 }
 ```
 
