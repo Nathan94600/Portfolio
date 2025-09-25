@@ -1,4 +1,5 @@
-*.zip
+*.deflate
+*.zst
 *.gzip
 *.br
 /package-lock.json

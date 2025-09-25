@@ -1,14 +1,16 @@
 const { createServer: createSecureServer } = require("https"),
 { createServer, IncomingMessage, ServerResponse } = require("http"),
 { readFile, readFileSync, readdir, writeFile } = require("fs"),
-{ brotliCompress, deflate, gzip } = require("zlib"),
+{ brotliCompress, deflate, gzip, zstdCompress } = require("zlib"),
+{ Pool } = require("pg"),
 { createTransport } = require("nodemailer"),
-{ password, senderEmail, host, port, receiverEmail, certPath, keyPath } = require("./config.json"),
-supportedEncoding = ["br", "gzip", "deflate", "*"],
+{ password, senderEmail, host, port, receiverEmail, certPath, keyPath, pgConfig, salt } = require("./config.json"),
+supportedEncoding = ["br", "zstd", "gzip", "deflate", "*"],
 fileExts = {
 	br: ".br",
 	gzip: ".gzip",
-	deflate: ".zip",
+	zstd: ".zst",
+	deflate: ".deflate",
 	null: ""
 },
 fileExtRegex = /\.(br|zip|gzip)$/,
@@ -41,7 +43,8 @@ mailOptions = {
 	to: receiverEmail,
 	from: senderEmail,
 	subject: "Nouveau message venant du Portfolio",
-};
+},
+pool = new Pool(pgConfig);
 
 /**
  * @param { string } filePath 
@@ -57,9 +60,16 @@ function compressFile(filePath) {
 				});
 			});
 
+			zstdCompress(data, (err, res) => {
+				if (err) console.log(`[compressDir] zstdCompress (${filePath})`, err);
+				else writeFile(`${filePath}.zst`, res, err => {
+					if (err) console.log(`[compressDir] writeFile zstdCompress (${filePath})`, err);
+				});
+			});
+
 			deflate(data, (err, res) => {
 				if (err) console.log(`[compressDir] deflate (${filePath})`, err);
-				else writeFile(`${filePath}.zip`, res, err => {
+				else writeFile(`${filePath}.deflate`, res, err => {
 					if (err) console.log(`[compressDir] writeFile deflate (${filePath})`, err);
 				});
 			});
@@ -530,6 +540,15 @@ function chooseEncoding(header) {
 									brotliCompress(content, (err, encodedContent) => {
 										if (err) {
 											console.log("[brotliCompress] GET /contact-error", err);
+
+											res.writeHead(500).end();
+										} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": encodedContent.length }).end(encodedContent);
+									});
+									break;
+								case "zstd":
+									zstdCompress(content, (err, encodedContent) => {
+										if (err) {
+											console.log("[zstdCompress] GET /contact-error", err);
 
 											res.writeHead(500).end();
 										} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": encodedContent.length }).end(encodedContent);
