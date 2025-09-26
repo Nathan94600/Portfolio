@@ -863,8 +863,8 @@ await pool.query(`
 						email = params.get("email"),
 						message = params.get("message"),
 						ip = req.socket.remoteAddress,
-						ipHash = createHash("BLAKE2s256").update(ip).digest("base64"),
-						emailHash = createHash("BLAKE2s256").update(email).digest("base64");
+						ipHash = createHash("BLAKE2s256").update(salt + ip).digest("base64"),
+						emailHash = createHash("BLAKE2s256").update(salt + email).digest("base64");
 
 						if (!ip) res.writeHead(303, { location: encodeURI("/contact-error?error=Adresse IP introuvable ou invalide") }).end();
 						else if (!nom) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre votre nom") }).end();
