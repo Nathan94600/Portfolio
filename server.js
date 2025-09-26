@@ -130,8 +130,6 @@ function compressDir(dirPath, except = []) {
 	});
 };
 
-purge();
-
 next.setHours(2, 0, 0, 0);
 
 if (next.getTime() <= now) next.setDate(next.getDate() + 1);
@@ -189,6 +187,8 @@ await pool.query(`
     created_at TIMESTAMP DEFAULT NOW()
 	);
 `);
+
+purge();
 
 ((certPath && keyPath) ? createSecureServer : createServer)({
 	key: keyPath ? readFileSync(keyPath) : keyPath,
