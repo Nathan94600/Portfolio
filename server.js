@@ -134,8 +134,6 @@ next.setHours(2, 0, 0, 0);
 
 if (next.getTime() <= now) next.setDate(next.getDate() + 1);
 
-console.log(next.getTime() - now);
-
 // Requête qui s'exécute tous les jours à 2h
 setTimeout(() => {
 	purge();
