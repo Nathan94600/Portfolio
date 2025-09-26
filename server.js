@@ -7,6 +7,7 @@ import { join, extname, dirname } from "path";
 import { createTransport } from "nodemailer";
 import config from "./config.json" with { type: "json" };
 import { fileURLToPath } from "url";
+import { createHash } from "crypto";
 
 const { password, senderEmail, host, port, receiverEmail, certPath, keyPath, pgConfig, salt } = config;
 const supportedEncoding = ["br", "zstd", "gzip", "deflate", "*"];
@@ -52,6 +53,17 @@ const pool = new Pool(pgConfig);
 const extensionsToDelete = [".zst", ".br", ".deflate", ".gz"];
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const next = new Date(), now = Date.now();
+
+function purge() {
+	pool.query(`
+		DELETE FROM messages WHERE created_at < NOW() - INTERVAL '6 months';
+		DELETE FROM blacklist WHERE created_at < NOW() - INTERVAL '1 year';
+	`)
+	.then(() => console.log(`[${new Date().toLocaleString()}] Purge effectuée avec succès !`))
+	.catch(reason => console.error(`[${new Date().toLocaleString()}] Erreur lors de la purge :`, reason));
+};
+
 function cleanCompressedFiles(dir) {
   const items = readdirSync(dir, { withFileTypes: true });
 
@@ -68,8 +80,6 @@ function cleanCompressedFiles(dir) {
     };
   };
 };
-
-cleanCompressedFiles(__dirname);
 
 /**
  * @param { string } filePath 
@@ -120,6 +130,23 @@ function compressDir(dirPath, except = []) {
 	});
 };
 
+purge();
+
+next.setHours(2, 0, 0, 0);
+
+if (next.getTime() <= now) next.setDate(next.getDate() + 1);
+
+console.log(next.getTime() - now);
+
+// Requête qui s'exécute tous les jours à 2h
+setTimeout(() => {
+	purge();
+	
+	setInterval(purge, 3600000 * 24)
+}, next.getTime() - now);
+
+cleanCompressedFiles(__dirname);
+
 compressDir("./pages", ["contact-error.html"]);
 compressDir("./styles");
 compressDir("./icons");
@@ -145,7 +172,7 @@ function chooseEncoding(header) {
 	return encoding ? encoding == "*" ? supportedEncoding[0] : encoding : null;
 };
 
-pool.query(`
+await pool.query(`
 	CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY,
     message TEXT NOT NULL,
@@ -830,9 +857,17 @@ pool.query(`
 					let data = "";
 
 					req.on("data", chunk => data += chunk).on("end", () => {
-						const params = new URLSearchParams(data), nom = params.get("nom"), prenom = params.get("prenom"), email = params.get("email"), message = params.get("message");
+						const params = new URLSearchParams(data),
+						nom = params.get("nom"),
+						prenom = params.get("prenom"),
+						email = params.get("email"),
+						message = params.get("message"),
+						ip = req.socket.remoteAddress,
+						ipHash = createHash("BLAKE2s256").update(ip).digest("base64"),
+						emailHash = createHash("BLAKE2s256").update(email).digest("base64");
 
-						if (!nom) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre votre nom") }).end();
+						if (!ip) res.writeHead(303, { location: encodeURI("/contact-error?error=Adresse IP introuvable ou invalide") }).end();
+						else if (!nom) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre votre nom") }).end();
 						else if (nom.length < 2 || nom.length > 50) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un nom qui contient entre 2 et 50 caractères") }).end();
 						else if (!prenom) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre votre prénom") }).end();
 						else if (prenom.length < 2 || prenom.length > 50) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un prénom qui contient entre 2 et 50 caractères") }).end();
@@ -840,15 +875,28 @@ pool.query(`
 						else if (email.length < 6 || email.length > 254) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un prénom qui contient entre 6 et 254 caractères") }).end();
 						else if (!message) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un message") }).end();
 						else if (message.length < 10 || message.length > 1000) res.writeHead(303, { location: encodeURI("/contact-error?error=Vous devez mettre un message qui contient entre 10 et 1000 caractères") }).end();
-						else transporter.sendMail({
-							...mailOptions,
-							text: `Prénom: ${prenom}\nNom: ${nom}\nEmail: ${email}\nMessage :\n\n${message}`
-						}, err => {
-							if (err) {
-								console.log("[sendMail]", err);
+						else pool.query("SELECT * FROM blacklist WHERE ip_hash = $1 OR email_hash = $2 LIMIT 1;", [ipHash, emailHash]).then(queryRes => {
+							if (queryRes.rows[0]) res.writeHead(303, { location: encodeURI("/contact-error?error=Votre adresse IP ou votre email est blacklisté") }).end();
+							else {
+								pool.query("INSERT INTO messages (message, ip_hash, email_hash) VALUES ($1, $2, $3)", [message, ipHash, emailHash]).catch(reason => {
+									console.log("[add message]", reason);
+								});
 
-								res.writeHead(303, { location: encodeURI("/contact-error?error=Erreur lors de l'envoi du message") }).end();
-							} else res.writeHead(303, { location: "/contact-success" }).end();
+								transporter.sendMail({
+									...mailOptions,
+									text: `Prénom: ${prenom}\nNom: ${nom}\nEmail: ${email}\nMessage :\n\n${message}`
+								}, err => {
+									if (err) {
+										console.log("[sendMail]", err);
+
+										res.writeHead(303, { location: encodeURI("/contact-error?error=Erreur lors de l'envoi du message") }).end();
+									} else res.writeHead(303, { location: "/contact-success" }).end();
+								});
+							};
+						}).catch(reason => {
+							console.log("[blacklist check]", reason);
+
+							res.writeHead(303, { location: encodeURI("/contact-error?error=Erreur lors de l'envoi du message") }).end();
 						});
 					});
 					break;
