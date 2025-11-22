@@ -152,6 +152,84 @@ ul {
 	width: calc(100% - 2rem - 4px);
 }
 
+#certifs-component {
+	width: 100%;
+}
+
+#certifs {
+	flex-grow: 1;
+	width: 100%;
+	overflow: auto;
+	display: flex;
+	flex-direction: row;
+	gap: 2rem;
+}
+
+.certif {
+	display: flex;
+	flex-direction: column;
+	min-width: calc(300px - 2rem);
+	flex-shrink: 0;
+	width: calc((100% - 10rem - 12px) / 3);
+	background: hsl(0, 0%, 93%, 0.05);
+	padding: 1rem;
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+	border-radius: 15px;
+	margin-bottom: 1rem;
+}
+
+.certif h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.certif p {
+	flex: 1;
+}
+
+img {
+	right: 0;
+	vertical-align: middle;
+	width: calc(2rem);
+}
+
+.links {
+	margin-top: 1rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.links a {
+	background: hsl(0, 0%, 93%, 0.05);
+	text-decoration: none;
+	color: #fff;
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+	border-radius: 15px;
+	padding: .5rem;
+	box-shadow: 2px 2px 2px hsl(0, 0%, 0%, 0.25);
+}
+
+#certifs::-webkit-scrollbar {
+	display: initial;
+}
+
+#certifs::-webkit-scrollbar-track {
+	background: hsl(0, 0%, 93%, 0.05);
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+  border-radius: 50px;
+}
+
+#certifs::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+	background: hsl(0, 0%, 93%, 0.15);
+}
+
+#certifs::-webkit-scrollbar-thumb:hover {
+	background: hsl(0, 0%, 93%, 0.25);
+}
+
 #skills-component {
 	width: 100%;
 }
