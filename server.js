@@ -436,12 +436,12 @@ purge();
 					break;
 			}
 			break;
-		case "/epreuve-e5":
+		case "/competences":
 			switch (req.method) {
 				case "GET":
-					readFile(`./pages/epreuve-e5.html${fileExts[encoding]}`, (err, data) => {
+					readFile(`./pages/competences.html${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /epreuve-e5", err);
+							console.log("GET /competences", err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
@@ -533,12 +533,12 @@ purge();
 					break;
 			}
 			break;
-		case "/styles/epreuve-e5.css":
+		case "/styles/competences.css":
 			switch (req.method) {
 				case "GET":
-					readFile(`./styles/epreuve-e5.css${fileExts[encoding]}`, (err, data) => {
+					readFile(`./styles/competences.css${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /styles/epreuve-e5.css", err);
+							console.log("GET /styles/competences.css", err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
