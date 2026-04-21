@@ -215,14 +215,24 @@ purge();
 	
 	switch (pathname) {
 		// PDF
-		case "/certifs/css-essentials/certification.pdf":
-		case "/certifs/css-essentials/sea.pdf":
-		case "/certifs/html-essentials/certification.pdf":
-		case "/certifs/html-essentials/sea.pdf":
-		case "/certifs/javascript-essentials-1/certification.pdf":
-		case "/certifs/javascript-essentials-1/sea.pdf":
-		case "/certifs/javascript-essentials-2/certification.pdf":
-		case "/certifs/javascript-essentials-2/sea.pdf":
+		case "/docs/certifs/css-essentials/certification.pdf":
+		case "/docs/certifs/css-essentials/sea.pdf":
+		case "/docs/certifs/html-essentials/certification.pdf":
+		case "/docs/certifs/html-essentials/sea.pdf":
+		case "/docs/certifs/javascript-essentials-1/certification.pdf":
+		case "/docs/certifs/javascript-essentials-1/sea.pdf":
+		case "/docs/certifs/javascript-essentials-2/certification.pdf":
+		case "/docs/certifs/javascript-essentials-2/sea.pdf":
+		case "/docs/certifs/python-essentials-1/certification.pdf":
+		case "/docs/certifs/python-essentials-1/sea.pdf":
+		case "/docs/certifs/python-essentials-2/certification.pdf":
+		case "/docs/certifs/python-essentials-2/sea.pdf":
+		case "/docs/certifs/cpp-essentials-1/certification.pdf":
+		case "/docs/certifs/cpp-essentials-1/sea.pdf":
+		case "/docs/certifs/cpp-essentials-2/certification.pdf":
+		case "/docs/certifs/cpp-essentials-2/sea.pdf":
+		case "/docs/certifs/introduction-to-cybersecurity/certification.pdf":
+		case "/docs/certifs/introduction-to-cybersecurity/ccc.pdf":
 			switch (req.method) {
 				case "GET":
 					readFile(`.${pathname}`, (err, data) => {
@@ -243,6 +253,11 @@ purge();
 		case "/icons/certifs/html-essentials.png":
 		case "/icons/certifs/javascript-essentials-1.png":
 		case "/icons/certifs/javascript-essentials-2.png":
+		case "/icons/certifs/python-essentials-1.png":
+		case "/icons/certifs/python-essentials-2.png":
+		case "/icons/certifs/cpp-essentials-1.png":
+		case "/icons/certifs/cpp-essentials-2.png":
+		case "/icons/certifs/introduction-to-cybersecurity.png":
 			switch (req.method) {
 				case "GET":
 					readFile(`.${pathname}`, (err, data) => {

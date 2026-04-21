@@ -54,7 +54,25 @@ nav a[href="/"] {
 	gap: 2rem;
 }
 
-#exps:has(:nth-child(2):last-child) .exp {
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.header a {
+	width: fit-content;
+	margin-bottom: .5rem;
+	background: hsl(0, 0%, 93%, 0.05);
+	text-decoration: none;
+	color: #fff;
+	border: 2px solid hsl(0, 0%, 93%, 0.15);
+	border-radius: 10px;
+	padding: .5rem;
+	box-shadow: 2px 2px 2px hsl(0, 0%, 0%, 0.25);
+}
+
+#exps:has(:nth-child(2)) .exp {
   margin-bottom: 1rem;
 	width: calc(100% / 1.15);
 }
@@ -206,7 +224,7 @@ img {
 	text-decoration: none;
 	color: #fff;
 	border: 2px solid hsl(0, 0%, 93%, 0.15);
-	border-radius: 15px;
+	border-radius: 10px;
 	padding: .5rem;
 	box-shadow: 2px 2px 2px hsl(0, 0%, 0%, 0.25);
 }
@@ -307,6 +325,11 @@ img {
 
 	#container > * {
 		width: 100%;
+	}
+
+	.header {
+		flex-direction: column;
+		margin-bottom: 1rem;
 	}
 }
 
