@@ -94,7 +94,7 @@ h1 {
 	margin-bottom: 4rem;
 }
 
-h1, h2, h3, h4, p, ul {
+h1, h2, h3, h4, p, ul, a {
 	color: #fff;
 }
 
@@ -110,6 +110,15 @@ li {
 
 h3 {
 	margin-bottom: 1rem;
+}
+
+h3 a.company-link, h3 a.school-link {
+	border: 0;
+	padding: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	text-decoration: underline;
 }
 
 #left, #right {
