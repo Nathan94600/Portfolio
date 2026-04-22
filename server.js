@@ -1,7 +1,7 @@
 import { createServer as createSecureServer } from "https";
 import { createServer, IncomingMessage, ServerResponse } from "http";
 import { readFile, readFileSync, readdir, writeFile, unlinkSync, readdirSync } from "fs";
-import { brotliCompress, deflate, gzip, zstdCompress } from "zlib";
+import { brotliCompress, gzip } from "zlib";
 import { Pool } from "pg";
 import { join, extname, dirname } from "path";
 import { createTransport } from "nodemailer";
@@ -10,12 +10,10 @@ import { fileURLToPath } from "url";
 import { createHash } from "crypto";
 
 const { password, senderEmail, host, port, receiverEmail, certPath, keyPath, pgConfig, salt } = config;
-const supportedEncoding = ["br", "zstd", "gzip", "deflate", "*"];
+const supportedEncoding = ["br", "gzip", "*"];
 const fileExts = {
 	br: ".br",
 	gzip: ".gz",
-	zstd: ".zst",
-	deflate: ".deflate",
 	null: ""
 };
 const fileExtRegex = /\.(br|zip|gzip)$/;
@@ -58,7 +56,7 @@ const mailOptions = {
 	subject: "Nouveau message venant du Portfolio",
 };
 const pool = new Pool(pgConfig);
-const extensionsToDelete = [".zst", ".br", ".deflate", ".gz"];
+const extensionsToDelete = [".br", ".gz"];
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const next = new Date(), now = Date.now();
@@ -100,20 +98,6 @@ function compressFile(filePath) {
 				if (err) console.log(`[compressDir] brotliCompress (${filePath})`, err);
 				else writeFile(`${filePath}.br`, res, err => {
 					if (err) console.log(`[compressDir] writeFile brotliCompress (${filePath})`, err);
-				});
-			});
-
-			zstdCompress(data, (err, res) => {
-				if (err) console.log(`[compressDir] zstdCompress (${filePath})`, err);
-				else writeFile(`${filePath}.zst`, res, err => {
-					if (err) console.log(`[compressDir] writeFile zstdCompress (${filePath})`, err);
-				});
-			});
-
-			deflate(data, (err, res) => {
-				if (err) console.log(`[compressDir] deflate (${filePath})`, err);
-				else writeFile(`${filePath}.deflate`, res, err => {
-					if (err) console.log(`[compressDir] writeFile deflate (${filePath})`, err);
 				});
 			});
 
@@ -394,28 +378,10 @@ purge();
 										} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": encodedContent.length }).end(encodedContent);
 									});
 									break;
-								case "zstd":
-									zstdCompress(content, (err, encodedContent) => {
-										if (err) {
-											console.log("[zstdCompress] GET /contact-error", err);
-
-											res.writeHead(500).end();
-										} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": encodedContent.length }).end(encodedContent);
-									});
-									break;
 								case "gzip":
 									gzip(content, (err, encodedContent) => {
 										if (err) {
 											console.log("[gzip] GET /contact-error", err);
-
-											res.writeHead(500).end();
-										} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": encodedContent.length }).end(encodedContent);
-									});
-									break;
-								case "deflate":
-									deflate(content, (err, encodedContent) => {
-										if (err) {
-											console.log("[deflate] GET /contact-error", err);
 
 											res.writeHead(500).end();
 										} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": encodedContent.length }).end(encodedContent);
