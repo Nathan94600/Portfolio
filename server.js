@@ -28,6 +28,10 @@ const defaultHeaders = {
 		"cache-control": "no-cache",
 		"content-type": "text/css; charset=UTF-8"
 	},
+	JS: {
+		"cache-control": "no-cache",
+		"content-type": "text/css; charset=UTF-8"
+	},
 	SVG: {
 		"cache-control": "max-age=31536000",
 		"content-type": "image/svg+xml;"
@@ -136,6 +140,7 @@ setTimeout(() => {
 cleanCompressedFiles(__dirname);
 
 compressDir("./pages", ["contact-error.html"]);
+compressDir("./js");
 compressDir("./styles");
 compressDir("./icons", ["certifs"]);
 
@@ -194,11 +199,14 @@ purge();
 	if (encoding) {
 		defaultHeaders.HTML["content-encoding"] = encoding;
 		defaultHeaders.CSS["content-encoding"] = encoding;
+		defaultHeaders.JS["content-encoding"] = encoding;
 		defaultHeaders.SVG["content-encoding"] = encoding;
 	};
 	
 	switch (pathname) {
 		// PDF
+		case "/docs/attestation-learneo.pdf":
+		case "/docs/attestation-minister-de-la-culture.pdf":
 		case "/docs/certifs/css-essentials/certification.pdf":
 		case "/docs/certifs/css-essentials/sea.pdf":
 		case "/docs/certifs/html-essentials/certification.pdf":
@@ -310,43 +318,17 @@ purge();
 			}
 			break;
 		case "/bts-sio":
-			switch (req.method) {
-				case "GET":
-					readFile(`./pages/bts-sio.html${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /bts-sio", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
 		case "/contact":
-			switch (req.method) {
-				case "GET":
-					readFile(`./pages/contact.html${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /contact", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
 		case "/contact-success":
+		case "/competences":
+		case "/epreuve-e6":
+		case "/projets":
+		case "/veille-technologique":
 			switch (req.method) {
 				case "GET":
-					readFile(`./pages/contact-success.html${fileExts[encoding]}`, (err, data) => {
+					readFile(`./pages${pathname}.html${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /contact-success", err);
+							console.log(`GET ${pathname}`, err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
@@ -402,63 +384,16 @@ purge();
 					break;
 			}
 			break;
-		case "/competences":
+		// js
+		case "/js/articles.js": 
 			switch (req.method) {
 				case "GET":
-					readFile(`./pages/competences.html${fileExts[encoding]}`, (err, data) => {
+					readFile(`.${pathname}${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /competences", err);
+							console.log(`GET ${pathname}`, err);
 							
 							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
-		case "/epreuve-e6":
-			switch (req.method) {
-				case "GET":
-					readFile(`./pages/epreuve-e6.html${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /epreuve-e6", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
-		case "/projets":
-			switch (req.method) {
-				case "GET":
-					readFile(`./pages/projets.html${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /projets", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
-		case "/veille-technologique":
-			switch (req.method) {
-				case "GET":
-					readFile(`./pages/veille-technologique.html${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /veille-technologique", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.HTML, "content-length": data.length }).end(data);
+						} else res.writeHead(200, { ...defaultHeaders.JS, "content-length": data.length }).end(data);
 					});
 					break;
 				default:
@@ -468,123 +403,18 @@ purge();
 			break;
 		// styles
 		case "/styles/index.css":
-			switch (req.method) {
-				case "GET":
-					readFile(`./styles/index.css${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /styles/index.css", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
 		case "/styles/contact.css":
-			switch (req.method) {
-				case "GET":
-					readFile(`./styles/contact.css${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /styles/contact.css", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
 		case "/styles/competences.css":
-			switch (req.method) {
-				case "GET":
-					readFile(`./styles/competences.css${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /styles/competences.css", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
 		case "/styles/epreuve-e6.css":
-			switch (req.method) {
-				case "GET":
-					readFile(`./styles/epreuve-e6.css${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /styles/epreuve-e6.css", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
 		case "/styles/projets.css":
-			switch (req.method) {
-				case "GET":
-					readFile(`./styles/projets.css${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /styles/projets.css", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
 		case "/styles/veille-technologique.css":
-			switch (req.method) {
-				case "GET":
-					readFile(`./styles/veille-technologique.css${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /styles/veille-technologique.css", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
 		case "/styles/bts-sio.css":
-			switch (req.method) {
-				case "GET":
-					readFile(`./styles/bts-sio.css${fileExts[encoding]}`, (err, data) => {
-						if (err) {
-							console.log("GET /styles/bts-sio.css", err);
-							
-							res.writeHead(500).end();
-						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
-					});
-					break;
-				default:
-					res.writeHead(501).end();
-					break;
-			}
-			break;
 		case "/styles/navbar.css": 
 			switch (req.method) {
 				case "GET":
-					readFile(`./styles/navbar.css${fileExts[encoding]}`, (err, data) => {
+					readFile(`.${pathname}${fileExts[encoding]}`, (err, data) => {
 						if (err) {
-							console.log("GET /styles/navbar.css", err);
+							console.log(`GET ${pathname}`, err);
 							
 							res.writeHead(500).end();
 						} else res.writeHead(200, { ...defaultHeaders.CSS, "content-length": data.length }).end(data);
@@ -593,7 +423,7 @@ purge();
 				default:
 					res.writeHead(501).end();
 					break;
-			};
+			}
 			break;
 		// forms
 		case "/message":
