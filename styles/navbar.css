@@ -110,7 +110,8 @@ header {
 #hamburger-menu {
 	z-index: 1000;
 	align-items: start;
-  display: none;
+	display: none;
+	gap: 2rem;
 	position: absolute;
 	top: 0;
 	left: 50%;
@@ -120,7 +121,6 @@ header {
 	backdrop-filter: blur(10px);
 	background: hsl(0, 0%, 93%, 0.05);
 	margin: auto;
-	justify-content: space-around;
 	margin-top: 6rem;
 	padding: 9.5px;
 	width: calc(100% - 18px - 4px);
