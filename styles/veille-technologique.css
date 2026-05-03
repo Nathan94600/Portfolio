@@ -41,11 +41,15 @@ h2 {
 	margin-bottom: 1.5rem;
 }
 
-.container {
+.container, .block-container {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	margin: 0 5rem;
 	margin-bottom: 2rem;
+}
+
+.container {
 	flex-direction: column;
 }
 
@@ -56,23 +60,36 @@ h2 {
 	justify-content: space-between;
 }
 
-#def p {
+#def p, .block-container p {
 	background: hsl(0, 0%, 93%, 0.05);
 	padding: 1rem;
 	margin-bottom: 1rem;
 	border: 2px solid hsl(0, 0%, 93%, 0.15);
 	border-radius: 15px;
-	width: calc((100% - 6rem - 8px) / 2);
 	min-width: calc(360px - 4rem);
 }
 
-#texts h2, #titles h2 {
+#def p {
+	width: calc((100% - 6rem - 8px) / 2);
+}
+
+.block-container {
+	flex-direction: row;
+}
+
+.block-container .block {
+	display: flex;
+	flex-direction: column;
 	width: calc((100% - 2rem) / 2);
-	min-width: calc(360px - 4rem);
+}
+
+.block-container p {
+	flex: 1;
 }
 
 .buttons {
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: left;
 	gap: 1rem;
@@ -88,23 +105,6 @@ h2 {
 	border-radius: 10px;
 	padding: .5rem;
 	box-shadow: 2px 2px 2px hsl(0, 0%, 0%, 0.25);
-}
-
-#texts p, #titles p {
-	background: hsl(0, 0%, 93%, 0.05);
-	padding: 1rem;
-	margin-bottom: 1rem;
-	border: 2px solid hsl(0, 0%, 93%, 0.15);
-	border-radius: 15px;
-	width: calc((100% - 6rem - 8px) / 2);
-	min-width: calc(360px - 4rem);
-}
-
-#texts, #titles {
-	flex-wrap: wrap;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
 }
 
 #articles {
@@ -132,14 +132,13 @@ h2 {
 }
 
 @media (max-width: 1200px) {
-	.container {
-		margin-left: 1rem;
-		margin-right: 1rem;
+	.container, .block-container {
+		margin-inline: 1rem;
 	}
 }
 
 @media (max-width: 800px) {
-	#def p, #tools p{
+	#def p, .block-container .block {
 		width: auto;
 	}
 }
