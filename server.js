@@ -205,6 +205,7 @@ purge();
 	
 	switch (pathname) {
 		// PDF
+		case "/docs/tableau_de_synthese.pdf":
 		case "/docs/attestation-learneo.pdf":
 		case "/docs/attestation-minister-de-la-culture.pdf":
 		case "/docs/certifs/css-essentials/certification.pdf":
@@ -320,8 +321,6 @@ purge();
 		case "/bts-sio":
 		case "/contact":
 		case "/contact-success":
-		case "/competences":
-		case "/epreuve-e6":
 		case "/projets":
 		case "/veille-technologique":
 			switch (req.method) {
@@ -404,8 +403,6 @@ purge();
 		// styles
 		case "/styles/index.css":
 		case "/styles/contact.css":
-		case "/styles/competences.css":
-		case "/styles/epreuve-e6.css":
 		case "/styles/projets.css":
 		case "/styles/veille-technologique.css":
 		case "/styles/bts-sio.css":
