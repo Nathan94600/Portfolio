@@ -58,11 +58,21 @@ h1, h2, h3, p, ul, a {
 }
 
 .project {
+	display: flex;
+	flex-direction: column;
 	background: hsl(0, 0%, 93%, 0.05);
 	padding: 1rem;
 	border: 2px solid hsl(0, 0%, 93%, 0.15);
 	border-radius: 15px;
 	width: calc(var(--iframeWidth) * 1px);
+}
+
+.presentation {
+	margin-bottom: 1rem;
+	background: #fff;
+	border-radius: 15px;
+	pointer-events: none;
+	width: 100%;
 }
 
 iframe {

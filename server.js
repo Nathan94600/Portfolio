@@ -301,6 +301,27 @@ purge();
 					break;
 			}
 			break;
+		// images
+		case "/images/client_leger.png":
+		case "/images/client_lourd.png":
+		case "/images/snake.png":
+		case "/images/learneo.png":
+		case "/images/wordpress.png":
+			switch (req.method) {
+				case "GET":
+					readFile(`.${pathname}`, (err, data) => {
+						if (err) {
+							console.log("GET /", err);
+							
+							res.writeHead(500).end();
+						} else res.writeHead(200, { ...defaultHeaders.PNG, "content-length": data.length }).end(data);
+					});
+					break;
+				default:
+					res.writeHead(501).end();
+					break;
+			}
+			break;
 		// pages
 		case "/":
 			switch (req.method) {
