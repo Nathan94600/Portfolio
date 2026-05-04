@@ -197,7 +197,7 @@ ul {
 	flex-direction: column;
 	min-width: calc(300px - 2rem);
 	flex-shrink: 0;
-	width: calc((100% - 10rem - 12px) / 3);
+	width: calc((100% - 10rem - 12px) / 3.5);
 	background: hsl(0, 0%, 93%, 0.05);
 	padding: 1rem;
 	border: 2px solid hsl(0, 0%, 93%, 0.15);
