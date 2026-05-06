@@ -144,9 +144,6 @@ compressDir("./js");
 compressDir("./styles");
 compressDir("./icons", ["certifs"]);
 
-compressFile("./robots.txt");
-compressFile("./sitemap.xml");
-
 /**
  * @param { string } header Accept-Encoding
  * @returns { string | null }
@@ -502,12 +499,12 @@ purge();
 		case "/robots.txt":
 			switch (req.method) {
 				case "GET":
-					readFile(`./robots.txt${fileExts[encoding]}`, (err, data) => {
+					readFile(`./robots.txt`, (err, data) => {
 						if (err) {
 							console.log("GET /robots.txt", err);
 							
 							res.writeHead(500).end();
-						} else res.writeHead(200, { "cache-control": "no-cache", "content-type": "text/plain; charset=UTF-8", "content-length": data.length, "content-encoding": encoding }).end(data);
+						} else res.writeHead(200, { "cache-control": "no-cache", "content-type": "text/plain; charset=UTF-8", "content-length": data.length }).end(data);
 					});
 					break;
 				default:
@@ -518,12 +515,12 @@ purge();
 		case "/sitemap.xml":
 			switch (req.method) {
 				case "GET":
-					readFile(`./sitemap.xml${fileExts[encoding]}`, (err, data) => {
+					readFile(`./sitemap.xml`, (err, data) => {
 						if (err) {
 							console.log("GET /sitemap.xml", err);
 							
 							res.writeHead(500).end();
-						} else res.writeHead(200, { "cache-control": "no-cache", "content-type": "application/xml; charset=UTF-8", "content-length": data.length, "content-encoding": encoding }).end(data);
+						} else res.writeHead(200, { "cache-control": "no-cache", "content-type": "application/xml; charset=UTF-8", "content-length": data.length }).end(data);
 					});
 					break;
 				default:
