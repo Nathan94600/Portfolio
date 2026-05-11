@@ -263,9 +263,16 @@ purge();
 					break;
 			}
 			break;
+		case "/icons/apache-original.svg":
+		case "/icons/bash-original.svg":
 		case "/icons/bootstrap-original.svg":
+		case "/icons/c-original.svg":
+		case "/icons/cplusplus-original.svg":
 		case "/icons/csharp-original.svg":
 		case "/icons/css3-original.svg":
+		case "/icons/debian-original.svg":
+		case "/icons/discordjs-original.svg":
+		case "/icons/express-original.svg":
 		case "/icons/figma-original.svg":
 		case "/icons/git-original.svg":
 		case "/icons/github-original.svg":
@@ -273,16 +280,25 @@ purge();
 		case "/icons/java-original.svg":
 		case "/icons/javascript-original.svg":
 		case "/icons/linux-original.svg":
+		case "/icons/mariadb-original.svg":
 		case "/icons/mongodb-original.svg":
 		case "/icons/mysql-original.svg":
+		case "/icons/nestjs-original.svg":
+		case "/icons/nextjs-original.svg":
 		case "/icons/nodejs-original.svg":
 		case "/icons/php-original.svg":
+		case "/icons/postgresql-original.svg":
 		case "/icons/powershell-original.svg":
 		case "/icons/python-original.svg":
 		case "/icons/react-original.svg":
+		case "/icons/redis-original.svg":
 		case "/icons/sqlite-original.svg":
+		case "/icons/tailwindcss-original.svg":
+		case "/icons/trello-original.svg":
 		case "/icons/typescript-original.svg":
-		case "/icons/unity-original.svg":
+		case "/icons/ubuntu-original.svg":
+		case "/icons/windows8-original.svg":
+		case "/icons/wordpress-original.svg":
 			switch (req.method) {
 				case "GET":
 					readFile(`.${pathname}${fileExts[encoding]}`, (err, data) => {
