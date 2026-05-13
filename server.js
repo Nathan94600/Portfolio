@@ -317,6 +317,7 @@ purge();
 		// images
 		case "/images/client_leger.png":
 		case "/images/client_lourd.png":
+		case "/images/codenova.png":
 		case "/images/snake.png":
 		case "/images/learneo.png":
 		case "/images/wordpress.png":

@@ -107,6 +107,7 @@ img {
 	display: flex;
 	width: max-content;
 	margin: auto;
+	margin-bottom: 0;
   align-items: center;
 }
 
