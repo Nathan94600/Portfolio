@@ -204,7 +204,7 @@ purge();
 		// PDF
 		case "/docs/tableau_de_synthese.pdf":
 		case "/docs/attestation-learneo.pdf":
-		case "/docs/attestation-minister-de-la-culture.pdf":
+		case "/docs/attestation-ministere-de-la-culture.pdf":
 		case "/docs/certifs/css-essentials/certification.pdf":
 		case "/docs/certifs/css-essentials/sea.pdf":
 		case "/docs/certifs/html-essentials/certification.pdf":
