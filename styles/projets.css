@@ -165,3 +165,8 @@ p {
 		gap: 2rem
 	}
 }
+
+.links {
+	display: flex;
+	flex-direction: row;
+}

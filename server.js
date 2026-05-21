@@ -202,6 +202,9 @@ purge();
 	
 	switch (pathname) {
 		// PDF
+		case "/docs/documentations/Installation_et_configuration_de_GLPI.pdf":
+		case "/docs/documentations/Prestalia_Web_Documentation.pdf":
+		case "/docs/documentations/Prestalia_Desktop_Documentation.pdf":
 		case "/docs/tableau_de_synthese.pdf":
 		case "/docs/attestation-learneo.pdf":
 		case "/docs/attestation-ministere-de-la-culture.pdf":
